@@ -9,7 +9,11 @@
 </head>
 <body class="bg-gray-100 flex items-center justify-center h-screen">
   <div class="bg-white p-8 rounded shadow-lg w-96">
-    <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+  <a href="{{ url('/') }}" class="block text-center">
+    <h2 class="text-2xl font-bold mb-6 text-blue-500 hover:underline">
+         Login
+    </h2>
+</a>
     @if (session('success'))
     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
         {{ session('success') }}
