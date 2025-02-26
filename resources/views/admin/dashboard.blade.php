@@ -81,38 +81,47 @@
     });
 </script>  -->
 
-            @if($products->isEmpty())
-                <p>No products found.</p>
-            @else
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Image</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($products as $product)
-                        <tr>
-                            <td>{{ $product->name }}</td>
-                            <td>{{ $product->quantity }}</td>
-                            <td>${{ number_format($product->price, 2) }}</td>
-                            <td>
-                                @if($product->image)
-                                <img src="{{ asset('images/uploads/' . $product->image) }}" alt="Product Image" width="100">
-                                @else
-                                No image available
-                                @endif
-                            </td>
-                            <td>
+@if($products->isEmpty())
+    <p>No products found.</p>
+@else
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID</th> <!-- Added ID column -->
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Image</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($products as $product)
+            <tr>
+                <td>{{ $product->id }}</td> <!-- Displaying Product ID -->
+                <td>{{ $product->name }}</td>
+                <td>{{ $product->quantity }}</td>
+                <td>${{ number_format($product->price, 2) }}</td>
+                <td>
+                    @if($product->image)
+                        <img src="{{ asset('images/uploads/' . $product->image) }}" alt="Product Image" width="100">
+                    @else
+                        No image available
+                    @endif
+                </td>
+                <td>
+                    <!-- Action buttons or links go here -->
     <!-- Edit Button -->
-    <button class="btn btn-primary btn-sm editProduct" data-id="{{ $product->id }}">Edit</button>
+    <button class="btn btn-primary btn-sm editProduct" data-bs-toggle="modal" data-bs-target="#upexampleModal" data-id="{{ $product->id }}"  
+    data-name="{{ $product->name }}"
+    data-quantity="{{ $product->quantity }}"
+    data-price="{{ $product->price }}"
+    data-image="{{ $product->image }}">
+    Edit
+</button>
 
     <!-- Delete Button -->
-    <button class="btn btn-danger btn-sm delete_product" data-id="{{ $product->id }}">Delete</button>
+    <button class="btn btn-danger btn-sm delete_product" data-id="{{ $product->id }} ">Delete</button>
 </td>
                         </tr>
                         @endforeach

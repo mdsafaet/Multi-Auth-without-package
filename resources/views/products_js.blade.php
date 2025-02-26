@@ -17,6 +17,7 @@
         // Handle form submission
         $('#productForm').submit(function (e) {
             e.preventDefault();
+      
 
             // Use FormData to capture form inputs
             var form = $('#productForm')[0];
@@ -45,6 +46,66 @@
 </script>
 
 
+
+
+
+
+
+<script>
+
+
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+$(document).ready(function () {
+
+    // Populate modal with product data
+    $('.editProduct').on('click', function (e) {
+        e.preventDefault();
+
+        let id = $(this).data('id');
+        $('#Update_id').val(id);
+        $('#upproductName').val($(this).data('name'));
+        $('#upproductPrice').val($(this).data('price'));
+        $('#upproductquantity').val($(this).data('quantity'));
+    });
+
+    // Handle form submission
+    $('#updateproductForm').on('submit', function (e) {
+        e.preventDefault();
+
+        let id = $('#Update_id').val(); // Get product ID
+        let formData = new FormData(this);
+
+        $.ajax({
+            type: 'POST', // Use POST to send FormData
+            url: '/api/products/' + id + '?_method=PUT', // Use _method=PUT to simulate PUT
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                $('#upformResponse').html('<div class="alert alert-success">Product updated successfully.</div>');
+                $('#upexampleModal').modal('hide');
+                location.reload(); // Reload page to reflect changes
+            },
+            error: function (response) {
+                let errors = response.responseJSON.errors;
+                let errorHtml = '<div class="alert alert-danger"><ul>';
+                errors.forEach(error => errorHtml += '<li>' + error + '</li>');
+                errorHtml += '</ul></div>';
+                $('#upformResponse').html(errorHtml);
+            }
+        });
+    });
+});
+
+
+
+    
+</script>
 
 
 
