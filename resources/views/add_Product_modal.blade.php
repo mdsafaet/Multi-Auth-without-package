@@ -8,7 +8,7 @@
             </div>
 
             <!-- Form inside Modal -->
-            <form id="productForm" action="" method="post" enctype="multipart/form-data">
+            <form id="productForm" action="" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">

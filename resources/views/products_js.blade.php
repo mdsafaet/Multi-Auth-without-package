@@ -4,44 +4,80 @@
 
 
 
-<script>
-    // Set up CSRF token for AJAX requests
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
+{{-- <script>
+ 
 
     $(document).ready(function () {
 
-        // Handle form submission
+        
         $('#productForm').submit(function (e) {
             e.preventDefault();
       
 
-            // Use FormData to capture form inputs
+           
             var form = $('#productForm')[0];
             var data = new FormData(form);
 
             $.ajax({
                 type: 'POST',
-                url: '/api/products', // Ensure you set the correct URL
+                url: '/api/products', 
                 data: data,
-                contentType: false, // Required for FormData
-                processData: false, // Required for FormData
+                contentType: false, 
+                processData: false, 
                 success: function (response) {
                     $('#productForm')[0].reset();
                     $('#formResponse').html('<div class="alert alert-success">Product has been uploaded successfully.</div>');
-                  
-                    // Optionally, close the modal after success
                     $('#exampleModal').modal('hide');
                 },
                 error: function (response) {
                                    alert('Failed to upload product.');
                                 $('#formResponse').html('<div class="alert alert-danger">Failed to upload product.</div>');
                             }
+                            
             });
         });
+    });
+</script> --}}
+
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $(document).ready(function(){
+
+        $('#productForm').on('submit', function(e){
+            e.preventDefault();
+
+           
+            var form = $('#productForm')[0];
+            var formData = new FormData(form);
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/products', 
+                data: formData,
+                contentType: false, 
+                processData: false, 
+                success: function (response) {
+              
+                    $('#productForm')[0].reset();
+                    $('#formResponse').html('<div class="alert alert-success">Product has been uploaded successfully.</div>');
+                    $('#exampleModal').modal('hide');
+                    location.reload();
+                },
+                error: function (response) {
+                                   alert('Failed to upload product.');
+                                $('#formResponse').html('<div class="alert alert-danger">Failed to upload product.</div>');
+                            }
+                            
+            });
+      
+
+        });
+
     });
 </script>
 
@@ -51,60 +87,64 @@
 
 
 
+
+
+
+
+
+
 <script>
 
 
+$(document).ready(function () {
+
+// CSRF Token setup
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
 
-$(document).ready(function () {
+// Populate modal with product data
+$('.editProduct').on('click', function (e) {
+    e.preventDefault();
 
-    // Populate modal with product data
-    $('.editProduct').on('click', function (e) {
-        e.preventDefault();
+    let id = $(this).data('id');
+    $('#Update_id').val(id);
+    $('#upproductName').val($(this).data('name'));
+    $('#upproductPrice').val($(this).data('price'));
+    $('#upproductquantity').val($(this).data('quantity'));
+});
 
-        let id = $(this).data('id');
-        $('#Update_id').val(id);
-        $('#upproductName').val($(this).data('name'));
-        $('#upproductPrice').val($(this).data('price'));
-        $('#upproductquantity').val($(this).data('quantity'));
-    });
+// Handle product update
+$('#updateproductForm').on('submit', function (e) {
+    e.preventDefault();
 
-    // Handle form submission
-    $('#updateproductForm').on('submit', function (e) {
-        e.preventDefault();
+    let id = $('#Update_id').val();
+    let formData = new FormData(this);
+    formData.append('_method', 'PUT'); // Properly append the _method for Laravel
 
-        let id = $('#Update_id').val(); // Get product ID
-        let formData = new FormData(this);
-
-        $.ajax({
-            type: 'POST', // Use POST to send FormData
-            url: '/api/products/' + id + '?_method=PUT', // Use _method=PUT to simulate PUT
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                $('#upformResponse').html('<div class="alert alert-success">Product updated successfully.</div>');
-                $('#upexampleModal').modal('hide');
-                location.reload(); // Reload page to reflect changes
-            },
-            error: function (response) {
-                let errors = response.responseJSON.errors;
-                let errorHtml = '<div class="alert alert-danger"><ul>';
-                errors.forEach(error => errorHtml += '<li>' + error + '</li>');
-                errorHtml += '</ul></div>';
-                $('#upformResponse').html(errorHtml);
-            }
-        });
+    $.ajax({
+        type: 'POST',
+        url: '/api/products/' + id, 
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            $('#upformResponse').html('<div class="alert alert-success">✅ Product updated successfully.</div>');
+            $('#upexampleModal').modal('hide');
+            location.reload();
+        },
+        error: function (response) {
+            alert('❌ Failed to update product.');
+            $('#upformResponse').html('<div class="alert alert-danger">❌ Failed to update product.</div>');
+        }
     });
 });
 
+});
 
-
-    
+ 
 </script>
 
 

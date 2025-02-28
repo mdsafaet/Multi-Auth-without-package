@@ -111,14 +111,18 @@
                 </td>
                 <td>
                     <!-- Action buttons or links go here -->
-    <!-- Edit Button -->
-    <button class="btn btn-primary btn-sm editProduct" data-bs-toggle="modal" data-bs-target="#upexampleModal" data-id="{{ $product->id }}"  
-    data-name="{{ $product->name }}"
-    data-quantity="{{ $product->quantity }}"
-    data-price="{{ $product->price }}"
-    data-image="{{ $product->image }}">
-    Edit
-</button>
+                    <button class="btn btn-primary btn-sm editProduct" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#upexampleModal" 
+                    data-id="{{ $product->id }}"  
+                    data-name="{{ $product->name }}"
+                    data-quantity="{{ $product->quantity }}"
+                    data-price="{{ $product->price }}"
+                    data-image="{{ $product->image }}">
+                    Edit
+                </button>
+                
+
 
     <!-- Delete Button -->
     <button class="btn btn-danger btn-sm delete_product" data-id="{{ $product->id }} ">Delete</button>
